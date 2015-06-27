@@ -43,8 +43,8 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mItems = new ArrayList<>(30);
-        for (int i = 0; i < 30; i++) {
+        mItems = new ArrayList<>(3);
+        for (int i = 0; i < 10; i++) {
             mItems.add(String.format("Card number %02d", i));
         }
 
@@ -56,7 +56,10 @@ public class MainActivity extends ActionBarActivity {
 
             @Override
             public void onButton1Click(View view, int position) {
-                Toast.makeText(MainActivity.this, "Clicked Button1 in " + mItems.get(position), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "Clicked Button1 in " + mItems.get(position), Toast.LENGTH_SHORT).show();
+                mItems.remove(position);
+                mAdapter.notifyItemChanged(position);
+                mAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -148,15 +151,20 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+            //int listViewItemType = getItemViewType(i);
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_view_layout, viewGroup, false);
             return new ViewHolder(v);
+
         }
 
         @Override
         public void onBindViewHolder(ViewHolder viewHolder, int i) {
             viewHolder.title.setText(cards.get(i));
         }
-
+        @Override
+        public int getItemViewType(int position) {
+            return position;
+        }
         @Override
         public int getItemCount() {
             return cards == null ? 0 : cards.size();
@@ -194,6 +202,42 @@ public class MainActivity extends ActionBarActivity {
                     }
                 });
             }
+
+        }
+
+        public class ViewHolder1 extends RecyclerView.ViewHolder {
+            //private TextView title;
+            //private Button button1;
+            //private Button button2;
+
+            public ViewHolder1(View itemView) {
+                super(itemView);
+                //title = (TextView) itemView.findViewById(R.id.card_view_title);
+                /*button1 = (Button) itemView.findViewById(R.id.card_view_button1);
+                button2 = (Button) itemView.findViewById(R.id.card_view_button2);
+
+                button1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onItemTouchListener.onButton1Click(v, getPosition());
+                    }
+                });
+
+                button2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onItemTouchListener.onButton2Click(v, getPosition());
+                    }
+                });
+
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onItemTouchListener.onCardViewTap(v, getPosition());
+                    }
+                });*/
+            }
+
         }
     }
 }
